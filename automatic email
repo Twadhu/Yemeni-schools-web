@@ -1,0 +1,33 @@
+// إعداد EmailJS لإرسال بريد عند قبول الطالب
+(function() {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("acceptStudentBtn").addEventListener("click", function() {
+            const studentName = document.getElementById("studentName").value;
+            const schoolName = document.getElementById("schoolName").value;
+            const studentEmail = document.getElementById("studentEmail").value;
+
+            if (!studentName || !schoolName || !studentEmail) {
+                alert("يرجى إدخال جميع البيانات المطلوبة");
+                return;
+            }
+
+            emailjs.init("QM4EgDHKawTHU-5dp"); // المفتاح العام EmailJS
+            
+            const templateParams = {
+                to_name: studentName,
+                Yemeni: schoolName,
+                message: `تهانينا! تم قبولك في ${schoolName}. يمكنك الآن تسجيل الدخول إلى المنصة للوصول إلى جميع الميزات المتاحة لك.`,
+                to_email: studentEmail
+            };
+
+            emailjs.send("service_stduown", "template_27rvt66", templateParams)
+                .then(function(response) {
+                    alert("تم إرسال البريد بنجاح إلى " + studentEmail);
+                    console.log("Email sent successfully:", response);
+                }, function(error) {
+                    alert("حدث خطأ أثناء إرسال البريد. يرجى المحاولة مرة أخرى.");
+                    console.error("Email error:", error);
+                });
+        });
+    });
+})();
